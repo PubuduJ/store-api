@@ -59,7 +59,7 @@ const getAllProducts = async (req, res) => {
     result = result.skip(skip).limit(limit);
 
     const products = await result;
-    res.status(StatusCodes.OK).json({products, resultCount: products.length});
+    return res.status(StatusCodes.OK).json({products, resultCount: products.length});
 }
 
 module.exports = {getAllProducts};
