@@ -2,7 +2,7 @@ const {StatusCodes} = require("http-status-codes");
 const Product = require("../models/product");
 
 const getAllProducts = async (req, res) => {
-    const {featured, company, name, sort, fields} = req.query;
+    const {featured, company, name, sort, fields, numericFilters} = req.query;
     // filtering.
     const filterObject = {};
     if (featured) {
@@ -15,6 +15,27 @@ const getAllProducts = async (req, res) => {
         // search names based on regex, case insensitive.
         filterObject.name = { $regex: name, $options: "i"};
     }
+    if (numericFilters) {
+        const operatorMap = {
+            ">":"$gt",
+            ">=":"$gte",
+            "=":"$eq",
+            "<":"$lt",
+            "<=":"$lte",
+        }
+        const regEx = /\b(>|>=|=|<=|<)\b/g;
+        let filters = numericFilters.replace(regEx, (match) => {
+            return `-${operatorMap[match]}-`;
+        })
+        const options = ["price", "rating"];
+        filters = filters.split(",").forEach((item) => {
+            const [field, operator, value] = item.split("-");
+            if (options.includes(field)) {
+                filterObject[field] = {[operator]:Number(value)}
+            }
+        })
+    }
+    console.log(filterObject);
     let result = Product.find(filterObject);
     // sorting.
     if (sort) {
@@ -36,7 +57,7 @@ const getAllProducts = async (req, res) => {
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
     result = result.skip(skip).limit(limit);
-    
+
     const products = await result;
     res.status(StatusCodes.OK).json({products, resultCount: products.length});
 }
