@@ -15,6 +15,7 @@ const getAllProducts = async (req, res) => {
         // search names based on regex, case insensitive.
         filterObject.name = { $regex: name, $options: "i"};
     }
+    // numeric filters
     if (numericFilters) {
         const operatorMap = {
             ">":"$gt",
@@ -35,7 +36,6 @@ const getAllProducts = async (req, res) => {
             }
         })
     }
-    console.log(filterObject);
     let result = Product.find(filterObject);
     // sorting.
     if (sort) {
