@@ -2,7 +2,7 @@ const {StatusCodes} = require("http-status-codes");
 const Product = require("../models/product");
 
 const getAllProducts = async (req, res) => {
-    const {featured, company, name, sort} = req.query;
+    const {featured, company, name, sort, fields} = req.query;
     const filterObject = {};
     if (featured) {
         filterObject.featured = (featured === "true") ? true : false;
@@ -15,15 +15,20 @@ const getAllProducts = async (req, res) => {
         filterObject.name = { $regex: name, $options: "i"};
     }
     let result = Product.find(filterObject);
+    // sorting
     if (sort) {
         const sortList = sort.split(",").join(" ");
         result = result.sort(sortList);
     } else {
-        // default sort based on createdAt property.
+        // default sort based on createdAt property, if req doesn't have the sort param.
         result = result.sort("createdAt");
     }
+    if (fields) {
+        const fieldsList = fields.split(",").join(" ");
+        result = result.select(fieldsList);
+    }
     const products = await result;
-    res.status(StatusCodes.OK).json({products, arrayLength: products.length});
+    res.status(StatusCodes.OK).json({products, resultCount: products.length});
 }
 
 module.exports = {getAllProducts};
