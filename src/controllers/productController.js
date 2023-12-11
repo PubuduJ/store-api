@@ -1,7 +1,21 @@
 const {StatusCodes} = require("http-status-codes");
+const Product = require("../models/product");
 
 const getAllProducts = async (req, res) => {
-    res.status(StatusCodes.OK).json({message: "product testing route"});
+    const {featured, company, name} = req.query;
+    const queryObject = {};
+    if (featured) {
+        queryObject.featured = (featured === "true") ? true : false;
+    }
+    if (company) {
+        queryObject.company = company;
+    }
+    if (name) {
+        // search names based on regex, case insensitive.
+        queryObject.name = { $regex: name, $options: "i"};
+    }
+    const products = await Product.find(queryObject);
+    res.status(StatusCodes.OK).json({products, arrayLength: products.length});
 }
 
 module.exports = {getAllProducts};
