@@ -19,7 +19,7 @@ app.use("/api/v1/products", products);
 app.use(notFountMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = Number(process.env.PORT);
+const port = Number(process.env.PORT) || 3000;
 
 const start = async () => {
     try {
