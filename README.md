@@ -1,6 +1,6 @@
 # Jobs API <img src="assets/logo.png" alt="drawing" width="27px"/>
 
-This project showcases the retrieval of products store database. 
+This project showcases the retrieval of products in a store, database. 
 It incorporates functionality for **filtering, sorting, and pagination** based on user-defined criterias.
 
 More information on the exposed web service can be found in the below API documentation.
