@@ -1,4 +1,4 @@
-# Jobs API <img src="assets/logo.png" alt="drawing" width="27px"/>
+# Store API <img src="assets/logo.png" alt="drawing" width="27px"/>
 
 This project showcases the retrieval of products in a store, database. 
 It incorporates functionality for **filtering, sorting, and pagination** based on user-defined criterias.
