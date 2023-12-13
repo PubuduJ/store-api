@@ -12,7 +12,7 @@ const getAllProducts = async (req, res) => {
         filterObject.company = company;
     }
     if (name) {
-        // search names based on regex, case insensitive.
+        // search names based on regex, case-insensitive.
         filterObject.name = { $regex: name, $options: "i"};
     }
     // numeric filters
