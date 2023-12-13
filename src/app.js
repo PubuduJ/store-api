@@ -6,8 +6,8 @@ const app = express();
 const connectDB = require("./db/connect");
 const products = require("./routes/productRouter");
 
-const notFountMiddleware = require("./middlewares/notFound");
-const errorHandlerMiddleware = require("./middlewares/errorHandler");
+const notFountMiddleware = require("./middlewares/notFoundMiddleware");
+const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
 
 // middlewares
 app.use(cors());

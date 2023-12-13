@@ -1,6 +1,6 @@
 const {StatusCodes} = require("http-status-codes");
 
-const errorHandler = async (err, req, res, next) => {
+const errorHandlerMiddleware = async (err, req, res, next) => {
   let customError = {
     // set default
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
@@ -29,4 +29,4 @@ const errorHandler = async (err, req, res, next) => {
   return res.status(customError.statusCode).json({ message:customError.message });
 }
 
-module.exports = errorHandler;
+module.exports = errorHandlerMiddleware;
